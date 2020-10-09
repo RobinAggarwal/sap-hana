@@ -46,3 +46,11 @@ output "deployer_kv_user_arm_id" {
   sensitive = true
   value     = module.sap_deployer.deployer_kv_user_arm_id
 }
+
+output "deployer_kv_prvt_name" {
+  value     = module.sap_deployer.prvt_vault_name
+}
+
+output "deployer_kv_user_name" {
+  value     = module.sap_deployer.user_vault_name
+}
