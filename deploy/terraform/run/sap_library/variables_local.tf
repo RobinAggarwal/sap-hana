@@ -46,7 +46,8 @@ variable "tfstate_storage_account_name" {
 }
 
 locals {
-  // Derive resource group name for saplibrary
+  // Sap library's environment
+  environment    = upper(try(var.infrastructure.environment, ""))
   # var_infra      = try(var.infrastructure, {})
   # region         = try(local.var_infra.region, "")
   # environment    = upper(try(var.infrastructure.environment, ""))
