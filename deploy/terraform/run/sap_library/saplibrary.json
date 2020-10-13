@@ -1,16 +1,13 @@
 {
     "infrastructure": {
         "region": "eastus",
-        "environment": "np",
-        "resource_group": {
-            "is_existing": "false",
-            "arm_id": ""
-        }
+        "environment": "np"
     },
     "deployer": {
-        "environment": "np",
+        "environment": "adm",
         "region": "eastus",
-        "vnet": "MGMT",
-        "tfstate_storage_account_name": ""
-    }
+        "vnet": "MGMT"
+    },
+    "tfstate_resource_group_name": "",
+    "tfstate_storage_account_name": ""
 }

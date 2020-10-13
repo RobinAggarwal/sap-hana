@@ -104,8 +104,8 @@ locals {
   deployer_vnet           = try(local.deployer.vnet, "")
   deployer_prefix         = upper(format("%s-%s-%s", local.deployer_environment, local.deployer_location_short, substr(local.deployer_vnet, 0, 7)))
   // If custom names are used for deployer, provide resource_group_name and msi_name will override the naming convention
-  deployer_rg_name  = try(local.deployer.resource_group_name, format("%s-INFRASTRUCTURE", local.deployer_prefix))
-  deployer_msi_name = try(local.deployer.msi_name, format("%s-msi", local.deployer_prefix))
+  # deployer_rg_name  = try(local.deployer.resource_group_name, format("%s-INFRASTRUCTURE", local.deployer_prefix))
+  # deployer_msi_name = try(local.deployer.msi_name, format("%s-msi", local.deployer_prefix))
   // Comment out code with users.object_id for the time being.
   // deployer_users_id = try(local.deployer.users.object_id, [])
 
@@ -113,6 +113,9 @@ locals {
   kv_prefix       = upper(format("%s%s", substr(local.environment, 0, 5), local.location_short))
   kv_private_name = format("%sSAPLIBprvt%s", local.kv_prefix, local.postfix)
   kv_user_name    = format("%sSAPLIBuser%s", local.kv_prefix, local.postfix)
+
+  // spn
+  spn = try(var.spn, {})  
 
 }
 
