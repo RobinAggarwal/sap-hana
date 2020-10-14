@@ -43,6 +43,10 @@ variable "region_mapping" {
   }
 }
 
+variable "deployer_tfstate" {
+  description = "terraform.tfstate of deployer"
+}
+
 locals {
 
   // Post fix for all deployed resources
@@ -103,9 +107,7 @@ locals {
   deployer_location_short = try(var.region_mapping[local.deployer.region], "unkn")
   deployer_vnet           = try(local.deployer.vnet, "")
   deployer_prefix         = upper(format("%s-%s-%s", local.deployer_environment, local.deployer_location_short, substr(local.deployer_vnet, 0, 7)))
-  // If custom names are used for deployer, provide resource_group_name and msi_name will override the naming convention
-  # deployer_rg_name  = try(local.deployer.resource_group_name, format("%s-INFRASTRUCTURE", local.deployer_prefix))
-  # deployer_msi_name = try(local.deployer.msi_name, format("%s-msi", local.deployer_prefix))
+
   // Comment out code with users.object_id for the time being.
   // deployer_users_id = try(local.deployer.users.object_id, [])
 
@@ -115,7 +117,11 @@ locals {
   kv_user_name    = format("%sSAPLIBuser%s", local.kv_prefix, local.postfix)
 
   // spn
-  spn = try(var.spn, {})  
+  spn = try(var.spn, {})
+
+  // deployer terraform.tfstate
+  deployer_tfstate          = var.deployer_tfstate
+  deployer_msi_principal_id = local.deployer_tfstate.outputs.deployer_uai.principal_id
 
 }
 

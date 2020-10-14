@@ -10,4 +10,5 @@ module "sap_library" {
   software                = var.software
   deployer                = var.deployer
   spn                     = local.spn
+  deployer_tfstate        = data.terraform_remote_state.deployer
 }

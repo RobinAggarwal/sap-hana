@@ -3,10 +3,10 @@
       Import deployer resources
 */
 
-data "terraform_remote_state" "local_deployer" {
+data "terraform_remote_state" "deployer" {
   backend = "local"
-  config  = {
-    path  = "${abspath(path.cwd)}/../../LOCAL/${local.deployer_rg_name}/terraform.tfstate"
+  config = {
+    path = "${abspath(path.cwd)}/../../LOCAL/${local.deployer_rg_name}/terraform.tfstate"
   }
 }
 

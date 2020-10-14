@@ -3,19 +3,12 @@
   Set up key vault for sap library 
 */
 
-# data "azurerm_client_config" "deployer" {}
-
-# data "azurerm_user_assigned_identity" "deployer" {
-#   name                = local.deployer_msi_name
-#   resource_group_name = local.deployer_rg_name
-# }
-
 // Create private KV with access policy
 resource "azurerm_key_vault" "kv_prvt" {
   name                       = local.kv_private_name
   location                   = local.region
   resource_group_name        = local.rg_exists ? data.azurerm_resource_group.library[0].name : local.rg_name
-  tenant_id = local.spn.tenant_id
+  tenant_id                  = local.spn.tenant_id
   soft_delete_enabled        = true
   soft_delete_retention_days = 7
   purge_protection_enabled   = true
@@ -38,7 +31,7 @@ resource "azurerm_key_vault" "kv_user" {
   name                       = local.kv_user_name
   location                   = local.region
   resource_group_name        = local.rg_exists ? data.azurerm_resource_group.library[0].name : local.rg_name
-  tenant_id = local.spn.tenant_id
+  tenant_id                  = local.spn.tenant_id
   soft_delete_enabled        = true
   soft_delete_retention_days = 7
   purge_protection_enabled   = true
@@ -48,8 +41,8 @@ resource "azurerm_key_vault" "kv_user" {
 
 resource "azurerm_key_vault_access_policy" "kv_user_spn" {
   key_vault_id = azurerm_key_vault.kv_user.id
-  tenant_id = local.spn.tenant_id
-  object_id = local.spn.client_id
+  tenant_id    = local.spn.tenant_id
+  object_id    = local.spn.client_id
 
   secret_permissions = [
     "delete",

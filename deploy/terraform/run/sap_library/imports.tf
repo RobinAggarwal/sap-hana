@@ -3,13 +3,14 @@
       Import deployer resources
 */
 
-data "terraform_remote_state" "remote_deployer" {
+data "terraform_remote_state" "deployer" {
   backend = "azurerm"
   config = {
     resource_group_name  = local.saplib_resource_group_name
     storage_account_name = local.tfstate_storage_account_name
     container_name       = local.tfstate_container_name
     key                  = local.deployer_tfstate_key
+    subscription_id      = var.saplibrary_subscription_id
     use_msi              = true
   }
 }
