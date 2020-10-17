@@ -134,19 +134,20 @@ resource "azurerm_linux_virtual_machine" "vm-dbnode" {
   location            = var.resource-group[0].location
   resource_group_name = var.resource-group[0].name
 
-  //If more than one servers are deployed into a single zone put them in an availability set and not a zone
-
-  availability_set_id = local.zonal_deployment ? (
-    length(local.hdb_vms) == local.db_zone_count ? (
-      null) : (
-      azurerm_availability_set.hdb[count.index % local.db_zone_count].id
-    )) : (
-    azurerm_availability_set.hdb[0].id
-  )
   proximity_placement_group_id = local.zonal_deployment ? var.ppg[count.index % local.db_zone_count].id : var.ppg[0].id
-  zone = local.zonal_deployment ? (
-    length(local.hdb_vms) == local.db_zone_count ? local.zones[count.index % local.db_zone_count] : null) : (
-    null
+  //If more than one servers are deployed into a single zone put them in an availability set and not a zone
+  //Ultra disk requires zonal deployment
+  availability_set_id = local.enable_ultradisk ? null : (
+    local.zonal_deployment) ? (
+    local.db_server_count == local.db_zone_count ? null : azurerm_availability_set.anydb[count.index % local.db_zone_count].id) : (
+    azurerm_availability_set.anydb[0].id
+  )
+
+  zone = local.enable_ultradisk ? local.zones[count.index % local.db_zone_count] : (
+    local.zonal_deployment ? (
+      local.db_server_count == local.db_zone_count ? local.zones[count.index % local.db_zone_count] : null) : (
+      null
+    )
   )
 
   network_interface_ids = [
