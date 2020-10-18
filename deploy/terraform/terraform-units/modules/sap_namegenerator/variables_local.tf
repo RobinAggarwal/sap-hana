@@ -235,12 +235,6 @@ variable resource_suffixes {
   }
 }
 
-variable zones {
-  type        = list(string)
-  description = "List of availability zones"
-  default = []
-}
-
 variable app_zones {
   type        = list(string)
   description = "List of availability zones for application tier"
@@ -277,6 +271,7 @@ locals {
   random_id_verified    = upper(substr(var.random_id, 0, var.sapautomation_name_limits.random_id_length))
   random_id_vm_verified = lower(substr(var.random_id, 0, var.sapautomation_name_limits.random_id_length))
 
-  zonal_deployment = try(length(var.zones),0) > 0 ? true : false
+  zones            = distinct(concat(var.db_zones, var.app_zones, var.scs_zones, var.web_zones))
+  zonal_deployment = try(length(local.zones),0) > 0 ? true : false
 }
 

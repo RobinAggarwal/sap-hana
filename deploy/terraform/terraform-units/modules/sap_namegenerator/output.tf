@@ -32,7 +32,9 @@ output naming {
       HANA_VMNAME         = concat(local.hana_server_vm_names, local.hana_server_vm_names_ha)
       ISCSI_COMPUTERNAME  = local.iscsi_server_names
       SCS_COMPUTERNAME    = local.scs_server_names
+      SCS_VMNAME          = local.scs_server_vm_names
       WEB_COMPUTERNAME    = local.web_server_names
+      WEB_VMNAME          = local.web_server_vm_names
     }
     resource_suffixes = var.resource_suffixes
   }
