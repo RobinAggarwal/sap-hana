@@ -197,5 +197,5 @@ resource "azurerm_virtual_machine_data_disk_attachment" "vm-disks" {
   )
   caching                   = local.anydb_disks[count.index].caching
   write_accelerator_enabled = local.anydb_disks[count.index].write_accelerator_enabled
-  lun                       = count.index
+  lun                       = local.anydb_disks[count.index].lun
 }

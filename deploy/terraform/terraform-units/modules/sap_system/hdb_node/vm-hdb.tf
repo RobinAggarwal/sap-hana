@@ -223,5 +223,5 @@ resource "azurerm_virtual_machine_data_disk_attachment" "vm-dbnode-data-disk" {
   virtual_machine_id        = azurerm_linux_virtual_machine.vm-dbnode[local.data_disk_list[count.index].vm_index].id
   caching                   = local.data_disk_list[count.index].caching
   write_accelerator_enabled = local.data_disk_list[count.index].write_accelerator_enabled
-  lun                       = count.index
+  lun                       = local.data_disk_list[count.index].lun
 }
