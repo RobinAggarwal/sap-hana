@@ -139,8 +139,8 @@ resource "azurerm_linux_virtual_machine" "vm-dbnode" {
   //Ultra disk requires zonal deployment
   availability_set_id = local.enable_ultradisk ? null : (
     local.zonal_deployment) ? (
-    local.db_server_count == local.db_zone_count ? null : azurerm_availability_set.anydb[count.index % local.db_zone_count].id) : (
-    azurerm_availability_set.anydb[0].id
+    local.db_server_count == local.db_zone_count ? null : azurerm_availability_set.hdb[count.index % local.db_zone_count].id) : (
+    azurerm_availability_set.hdb[0].id
   )
 
   zone = local.enable_ultradisk ? local.zones[count.index % local.db_zone_count] : (
