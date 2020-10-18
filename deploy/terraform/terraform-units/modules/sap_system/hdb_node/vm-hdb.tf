@@ -206,13 +206,14 @@ resource "azurerm_managed_disk" "data-disk" {
   create_option        = "Empty"
   storage_account_type = local.data_disk_list[count.index].storage_account_type
   disk_size_gb         = local.data_disk_list[count.index].disk_size_gb
-  zones = local.zonal_deployment ? (
-    local.db_server_count == local.db_zone_count ? (
-      [azurerm_linux_virtual_machine.vm-dbnode[local.data_disk_list[count.index].vm_index].zone]) : (
+  zones = local.enable_ultradisk ? (
+    [azurerm_linux_virtual_machine.vm-dbnode[local.data_disk_list[count.index].vm_index].zone]) : (local.zonal_deployment ? (
+      local.db_server_count == local.db_zone_count ? (
+        [azurerm_linux_virtual_machine.vm-dbnode[local.data_disk_list[count.index].vm_index].zone]) : (
+        null
+      )) : (
       null
-    )) : (
-    null
-  )
+  ))
 }
 
 # Manages attaching a Disk to a Virtual Machine
