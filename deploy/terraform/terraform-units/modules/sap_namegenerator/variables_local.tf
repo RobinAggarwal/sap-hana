@@ -241,6 +241,31 @@ variable zones {
   default = []
 }
 
+variable app_zones {
+  type        = list(string)
+  description = "List of availability zones for application tier"
+  default = []
+}
+
+variable scs_zones {
+  type        = list(string)
+  description = "List of availability zones for scs tier"
+  default = []
+}
+
+variable web_zones {
+  type        = list(string)
+  description = "List of availability zones for web tier"
+  default = []
+}
+
+variable db_zones {
+  type        = list(string)
+  description = "List of availability zones for db tier"
+  default = []
+}
+
+
 locals {
 
   location_short = upper(try(var.region_mapping[var.location], "unkn"))
